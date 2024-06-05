@@ -66,7 +66,7 @@ app.post('/deletePopup', (req, res) => {
 })
 
 app.get('/books', (req, res) => {
-   db.query('SELECT * FROM webbooks', (err, data) => {
+   db.query('SELECT * FROM webbooks ORDER BY id', (err, data) => {
       if(err) {
          return res.status(500).send(err);
       }

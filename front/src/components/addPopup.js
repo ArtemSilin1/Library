@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+
 function AddMoadl({ active, setActive }) {
 
    const [values, setValues] = useState({
@@ -24,11 +25,9 @@ function AddMoadl({ active, setActive }) {
                year: ''
             });
             setActive(false);
-            alert("Успешно добавлено");
          })
          .catch(err => {
             console.error(err);
-            alert('Ошибка добавления');
          });
    }
    

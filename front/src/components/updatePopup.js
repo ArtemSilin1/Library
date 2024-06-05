@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function UpdateMoadl({ active, setActive }) {
-   const [id, setId] = useState('');
+function UpdateModal({ active, setActive, newId }) {
+
    const [values, setValues] = useState({
       title: '',
       author: '',
@@ -16,7 +16,7 @@ function UpdateMoadl({ active, setActive }) {
    const handleSubmit = (event) => {
       event.preventDefault();
       const updatedData = {
-        id: id,
+        id: newId,
         title: values.title,
         author: values.author,
         year: values.year
@@ -30,14 +30,11 @@ function UpdateMoadl({ active, setActive }) {
             year: ''
           });
           setActive(false);
-          alert('Успешно обновлено');
         })
         .catch(err => {
           console.error(err);
-          alert('Ошибка обновления');
         });
-    }
-    
+   }
 
    return (
       <div className={active ? "modal open" : "modal"} id="update_modal" onClick={() => setActive(false)}>
@@ -48,18 +45,12 @@ function UpdateMoadl({ active, setActive }) {
             <form onSubmit={handleSubmit}>
                <div className="inputs__contaienr">
                   <input
-                     type="number"
-                     className="modal_input"
-                     placeholder="Введите id книги"
-                     value={id}
-                     onChange={(e) => setId(e.target.value)}
-                  />
-                  <input
                      type="text"
                      className="modal_input"
                      placeholder="Введите новое название"
                      onChange={handleChange}
                      name="title"
+                     required
                   />
                   <input
                      type="text"
@@ -67,6 +58,7 @@ function UpdateMoadl({ active, setActive }) {
                      placeholder="Введите новое имя автора"
                      onChange={handleChange}
                      name="author"
+                     required
                   />
                   <input
                      type="number"
@@ -74,6 +66,7 @@ function UpdateMoadl({ active, setActive }) {
                      placeholder="Введите новый год издания"
                      onChange={handleChange}
                      name="year"
+                     required
                   />
                </div>
                <div className="buttons__container">
@@ -86,4 +79,4 @@ function UpdateMoadl({ active, setActive }) {
    );
 }
 
-export default UpdateMoadl;
+export default UpdateModal;
