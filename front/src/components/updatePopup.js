@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function UpdateModal({ active, setActive, newId }) {
+
+   const [isMouseDown, setIsMouseDown] = useState(false);
 
    const [values, setValues] = useState({
       title: '',
@@ -36,9 +38,53 @@ function UpdateModal({ active, setActive, newId }) {
         });
    }
 
+   const handleMouseDown = () => {
+      setIsMouseDown(true);
+   };
+  
+   const handleMouseUp = (event) => {
+      setIsMouseDown(false);
+      if (event.target.closest('.modal_container')) {
+        event.stopPropagation();
+      }
+   };
+  
+   const handleCloseModal = () => {
+      if (!isMouseDown) {
+        setActive(false);
+      }
+   };
+
+   // -------------------
+   const handleKeyEsc = (event) => {
+      if (event.key === 'Escape') {
+         setActive(false);
+      }
+   };
+
+   useEffect(() => {
+      document.addEventListener('keydown', handleKeyEsc);
+      return () => {
+         document.removeEventListener('keydown', handleKeyEsc);
+      };
+   }, []);
+
+   const handleKeyEnter = (event) => {
+      if (event.key === 'Enter') {
+        handleSubmit(event);
+      }
+    };
+    
+    useEffect(() => {
+      document.addEventListener('keyup', handleKeyEnter);
+      return () => {
+        document.removeEventListener('keyup', handleKeyEnter);
+      };
+    }, []);
+    
    return (
-      <div className={active ? "modal open" : "modal"} id="update_modal" onClick={() => setActive(false)}>
-         <div className="modal_container modal_update_container" onClick={e => e.stopPropagation()}>
+      <div className={active ? "modal open" : "modal"} id="update_modal" onClick={handleCloseModal}>
+         <div className="modal_container modal_update_container" onMouseDown={handleMouseDown} onMouseUp={handleMouseUp} onClick={e => e.stopPropagation()}>
             <div className="modal_header">
                <h2 className="modal_title">Обновление книги</h2>
             </div>
